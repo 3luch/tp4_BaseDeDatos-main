@@ -17,13 +17,16 @@ const getArtistas = async (req, res) => {
             ...
         ]
     */    
-   
-        const [results, fields] = await conn.query(
-            "SELECT id, nombre FROM artistas");
-            console.log(results)
-        return (results);
-        [req.params.id, req.body.nombre]
-   
+   try {
+        const[results,fields] = await conn.query
+        ("SELECT nombre, id FROM artistas", [req.params.id,])
+       }
+       catch(err)
+       {
+        console.log(err)
+       }
+   //Uso solo el req.params.id debido a que quiero filtrar todos los artistas y no uno en esecifico si fuera el caso agregaria el req.params.nombre
+   //LISTO
 
 };
 
@@ -37,11 +40,11 @@ const getArtista = async (req, res) => {
             "nombre": "Nombre del artista"
         }
     */
-        const [rows, fields] = await conn.query(
-            "SELECT * FROM artistas WHERE id = ?",
-            [req.params.id, req.body.nombre]
+        const [rows, fields] = await conn.query("SELECT id, nombre FROM artistas WHERE id = ?",
+            [req.params.id]
         );
         res.json(rows[0]);
+        //LISTO
 };
 
 const createArtista = async (req, res) => {
@@ -56,6 +59,10 @@ const createArtista = async (req, res) => {
    const { nombre } = req.body;
    await conn.query("INSERT INTO artistas (nombre) VALUES (?)", [nombre]);
    res.status(201).json({ nombre });
+   //res.status(201) es un codigo de estado el cual dice que el codigo fue creado con exito
+   //json({ nombre }); esta para enviar una respuesta JSON al cliente 
+
+//LISTO
 };
 
 const updateArtista = async (req, res) => {
@@ -67,32 +74,42 @@ const updateArtista = async (req, res) => {
             "nombre": "Nombre del artista"
         }
     */
-    const { nombre } = req.body;
-    await conn.query("UPDATE artista SET nombre = ?, WHERE id = ?");
-    res.json({ nombre });
-
+   try {
+    await conn.query("UPDATE artistas SET nombre = ? WHERE id = ?", [req.body.nombre, req.params.id]);
+    res.json({ nombre }); }
+    catch(err){
+    console.log(err)
+}
+//LISTO
 };
 
 const deleteArtista = async (req, res) => {
     // Completar con la consulta que elimina un artista
     // Recordar que los parámetros de una consulta DELETE se encuentran en req.params
     try{
-    const { nombre } = req.params;
-    await conn.query("DELETE", [req.params.id])
-    
+    await conn.query("DELETE FROM artistas WHERE id = ?", [req.params.id]);
     }
     catch(err){
         console.log(err);
     }
+    //LISTO
 };
 
 const getAlbumesByArtista = async (req, res) => {
     // Completar con la consulta que devuelve las canciones de un artista
     // Recordar que los parámetros de una consulta GET se encuentran en req.params
     // Deberían devolver los datos de la misma forma que getAlbumes
-    const [results, fields] = await conn.query("SELECT almbumes.nombre from albumes JOIN artistas ON artistas.id = albumes.artista WHERE artistas.id = ?", [req]);
-    console.log(results);
-    return (results);
+    try {
+    const [results, fields] = await conn.query(
+        "SELECT albumes.nombre AS nombre_album, artistas.nombre AS nombre_artista " +
+        "FROM albumes " +
+        "JOIN artistas ON artistas.id = albumes.artista " +
+        "WHERE artistas.id = ?",
+        [req.params.id]
+    );  
+    res.json(results);
+} catch (err) {
+    console.log(err);
 };
 
 const getCancionesByArtista = async (req, res) => {
