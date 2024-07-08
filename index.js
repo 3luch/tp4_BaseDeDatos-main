@@ -16,27 +16,27 @@ app.get("/", (_, res) => {
 
 //artistas:
 
-    app.get("/artistas", artistas.getartistas);
-    app.get("/artistas/:id", artistas.getartistas);
-    app.post("/artistas", artistas.postartistas);
-    app.put("/artistas/:id", artistas.putartistas);
-    app.del("/artistas/:id", artistas.delartistas);
-    app.get("/artistas/:id/canciones", artistas.getartistas);
+    app.GET("/artistas", artistas.getartistas);
+    app.GET("/artistas/:id", artistas.getartistas);
+    app.POST("/artistas", artistas.postartistas);
+    app.PUT("/artistas/:id", artistas.putartistas);
+    app.DEL("/artistas/:id", artistas.delartistas);
+    app.GET("/artistas/:id/canciones", artistas.getartistas);
 
 //Albumes:
 
-    app.get("/albumes", albumes.getalbumes);
-    app.get("/albumes/:id", albumes.getalbumes);
-    app.post("/albumes", albumes.postalbumes);
-    app.put("/albumes/:id", albumes.putalbumes);
-    app.del("/albumes/:id", albumes.delalbumes);
-    app.get("/albumes/:id/canciones", albumes.getalbumes);
+    app.GET("/albumes", albumes.getalbumes);
+    app.GET("/albumes/:id", albumes.getalbumes);
+    app.POST("/albumes", albumes.postalbumes);
+    app.PUT("/albumes/:id", albumes.putalbumes);
+    app.DEL("/albumes/:id", albumes.delalbumes);
+    app.GET("/albumes/:id/canciones", albumes.getalbumes);
 
 //Canciones:
 
-    app.get("/canciones", canciones.getcanciones);
-    app.get("/canciones/:id", canciones.getcanciones);
-    app.post("/canciones", canciones.postcanciones);
-    app.put("/canciones/:id", canciones.putcanciones);
-    app.del("/canciones/:id", canciones.delcanciones);
-    app.get("/canciones/:id/reproducir", canciones.getcanciones);
+    app.GET("/canciones", canciones.getcanciones);
+    app.GET("/canciones/:id", canciones.getcanciones);
+    app.POST("/canciones", canciones.postcanciones);
+    app.PUT("/canciones/:id", canciones.putcanciones);
+    app.DEL("/canciones/:id", canciones.delcanciones);
+    app.GET("/canciones/:id/reproducir", canciones.getcanciones);
